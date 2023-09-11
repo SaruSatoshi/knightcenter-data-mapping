@@ -3,6 +3,12 @@ greeting:
 math:
 	expr 2 + 2
 
+one: greeting math
+
+directories:
+	-mkdir tmp
+	-mkdir data
+
 all: directories downloads freshdata
 
 directories:
