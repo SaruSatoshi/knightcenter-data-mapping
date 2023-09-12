@@ -3,7 +3,7 @@ greeting:
 math:
 	expr 2 + 2
 
-all: directories downloads freshdata
+all: directories downloads freshdata filecheck
 
 directories:
 	-mkdir tmp
@@ -15,3 +15,11 @@ downloads:
 
 freshdata:
 	node imf_to_csv.js
+
+filecheck:
+		curl "https://sarusatoshi-projects-public.s3.ap-southeast-2.amazonaws.com/inflation-map/inflation.csv"
+
+		cmp --silent ./tmp/previous.csv ./data/inflation.csv || \
+		curl -X POST -H 'Content-type: application/json' \
+		--insecure \
+		--data '{"text":"The file you asked me to watch has changed!"}' $$SLACK_WEBHOOK
